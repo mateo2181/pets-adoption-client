@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { gql } from '@apollo/client'
@@ -47,7 +47,7 @@ const Home: NextPage<Props> = ({ pets }) => {
 
 export default Home
 
-export const getStaticProps: GetStaticProps = async() => {
+export const getServerSideProps: GetServerSideProps = async() => {
   const { data } = await client.query({
     query: gql`
       query getPets {
@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async() => {
   return {
     props: {
       pets: data.pets
-    },
-    revalidate: 20
+    }
+    // revalidate: 20
  };
 }
