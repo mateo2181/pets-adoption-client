@@ -1,0 +1,40 @@
+.Card {
+    display: flex;
+    flex-direction: column;
+    min-width: 260px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all .3s ease-out;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+    &:hover {
+        box-shadow: 0px 2px 4px 0px rgba(82,78,78,0.54);
+        transform: translateY(-5px);
+    }
+}
+
+.Image {
+    // width: 100%;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    height: auto;
+}
+
+.Info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 16px 24px;
+    // border-top-left-radius: 16px;
+    // border-top-right-radius: 16px;
+    // transform: translateY(-20px);
+    background-color: white;
+    h2 {
+        margin: 0;
+        font-size: 20px;
+    }
+    
+    .Breed {
+        color: #929292;
+    }
+}

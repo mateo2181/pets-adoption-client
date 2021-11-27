@@ -1,7 +1,7 @@
 interface IUser {
-    id: string; 
-    firstname: string;
-    lastname: string;
+    id?: string; 
+    name?: string;
+    email?: string;
 }
 
 interface PetPicture {
@@ -11,7 +11,7 @@ interface PetPicture {
 }
 
 interface IPetBreed {
-    id: string | number;
+    id?: string | number;
     name?: string;
     pets?: Array<IPet>;
 }
@@ -32,6 +32,12 @@ interface IPet {
     owner?: IUser;
 }
 
-export {
-    IPet
+interface PetListProps {
+    pets: Array<IPet>
 }
+
+export {
+    IPet,
+    PetListProps,
+    PetPicture
+};
