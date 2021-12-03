@@ -3,9 +3,16 @@ export const pets = [
       'id': '1',
       'name': 'Lila',
       'status': 'has_owner',
+      'high': '120',
       'pictureDefault': {
         'path': 'https://pets-storage.s3.amazonaws.com/1638019865694_labrador.jpg'
       },
+      'pictures': [
+        {
+          'id': '1',
+          'path': 'https://pets-storage.s3.amazonaws.com/1638019865694_labrador.jpg'
+        }
+      ],
       'breed': {
         'name': 'Labrador'
       },
@@ -19,9 +26,16 @@ export const pets = [
         'id': '2',
         'name': 'Tom',
         'status': 'has_owner',
+        'high': '120',
         'pictureDefault': {
           'path': 'https://pets-storage.s3.amazonaws.com/1638019865694_labrador.jpg'
         },
+        'pictures': [
+          {
+            'id': '1',
+            'path': 'https://pets-storage.s3.amazonaws.com/1638019865694_labrador.jpg'
+          }
+        ],
         'breed': {
           'name': 'Labrador'
         },

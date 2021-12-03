@@ -1,0 +1,24 @@
+.input {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.input + label {
+    font-size: 1rem;
+    color: rgb(0,0,0, 0.8);
+    background-color: rgb(0,0,0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    transition: all .4s ease-out;
+    cursor: pointer;
+}
+
+.input:focus + label,
+.input + label:hover {
+    background-color: rgb(0,0,0, 0.2);
+}

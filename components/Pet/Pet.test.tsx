@@ -7,6 +7,8 @@ describe('Pet Component', () => {
     const pet = pets[0];
     it('Pet props are rendered', () => {
         render(<Pet name={pet.name}
+            widthCard={200}
+            onClick={() => {}}
             defaultImage={pet.pictureDefault?.path || ''}
             breed={pet.breed?.name || ''}
             key={pet.id}

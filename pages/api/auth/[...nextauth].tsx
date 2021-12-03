@@ -1,19 +1,15 @@
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
   // https://next-auth.js.org/configuration/providers
   providers: [
-    Providers.Email({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
-    }),
+    // Providers.Email({
+    //   server: process.env.EMAIL_SERVER,
+    //   from: process.env.EMAIL_FROM,
+    // }),
     Providers.Facebook({
       clientId: process.env.FACEBOOK_ID,
       clientSecret: process.env.FACEBOOK_SECRET,
@@ -28,6 +24,40 @@ export default NextAuth({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
+    Providers.Credentials({
+        // The name to display on the sign in form (e.g. 'Sign in with...')
+        name: 'Credentials',
+        // The credentials is used to generate a suitable form on the sign in page.
+        // You can specify whatever fields you are expecting to be submitted.
+        // e.g. domain, username, password, 2FA token, etc.
+        // You can pass any HTML attribute to the <input> tag through the object.
+        credentials: {
+        //   username: { label: 'Username', type: 'text', placeholder: 'Username' },
+          email: { label: 'Email', type: 'email', placeholder: 'myemail@mail.com'},
+          password: {  label: 'Password', type: 'password' }
+        },
+        async authorize(credentials, req) {
+          // You need to provide your own logic here that takes the credentials
+          // submitted and returns either a object representing a user or value
+          // that is false/null if the credentials are invalid.
+          // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+          // You can also use the `req` object to obtain additional parameters
+          // (i.e., the request IP address)
+          const res = await fetch(`${process.env.API_ENDPOINT_SIGNIN}/signInWithCredentials`, {
+              method: 'POST',
+              body: JSON.stringify(credentials),
+              headers: { 'Content-Type': 'application/json' }
+            });
+          const user = await res.json();
+    
+          // If no error and we have user data, return it
+          if (res.status === 200 && user) {
+            return user;
+          }
+          // Return null if user data could not be retrieved
+          return null;
+        }
+      })
   ],
 //   adapter: PrismaAdapter(prisma),
   // Database optional. MySQL, Maria DB, Postgres and MongoDB are supported.
@@ -50,7 +80,7 @@ export default NextAuth({
     jwt: true,
 
     // Seconds - How long until an idle session expires and is no longer valid.
-    // maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 24 * 60 * 60, // 1 day
 
     // Seconds - Throttle how frequently to write to database to extend a session.
     // Use it to limit write operations. Set to 0 to always update the database.
@@ -111,14 +141,21 @@ export default NextAuth({
         // }
   
         return token;
-      },
-    //   async session(session, token) {
+    },
+    async session(session, token) {
         // Send properties to the client, like an access_token from a provider.
-        // session.accessToken = token.accessToken;
-        // return session;
-    //   }
-    async signIn(user, account, profile) { 
-        console.log({user, account, profile});
+        session.token = token.accessToken;
+        return session;
+    },
+    async signIn(user, account, profile) {
+        if(account.type === 'credentials') {
+            // console.log({'SIGNIN CALLBACK WITH CREDENTIALS':{user, account, profile}});
+            // const userData = user.user; 
+            // user = { ...user, accessToken: user.token };
+            user.accessToken = user.token;
+            return true;
+        }
+        console.log({'SIGNIN CALLBACK':{user, account, profile}});
         const data = {
             name: profile.name,
             email: profile.email,
@@ -127,22 +164,10 @@ export default NextAuth({
         const res = await fetch(`${process.env.API_ENDPOINT_SIGNIN}/signIn`, {method: 'POST', body: JSON.stringify(data)});
         const json = await res.json();
         user.accessToken = json.token;
-        // console.log({'RESPONSE BACKEND': json});
         return true; 
     },
-    // async redirect(url, baseUrl) { return baseUrl },
-    // async session(session, user) { return session },
-    // async jwt(token, user, account, profile, isNewUser) { return token }
   },
-
-  // Events are useful for logging
-  // https://next-auth.js.org/configuration/events
   events: {},
-
-  // You can set the theme to 'light', 'dark' or use 'auto' to default to the
-  // whatever prefers-color-scheme is set to in the browser. Default is 'auto'
   theme: 'light',
-
-  // Enable debug messages in the console if you are having problems
   debug: false,
 });

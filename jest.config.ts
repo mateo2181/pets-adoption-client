@@ -7,6 +7,7 @@ const config: Config.InitialOptions = {
       '!**/*.d.ts',
       '!**/node_modules/**',
     ],
+    moduleDirectories: ['node_modules', '<rootDir>'],
     moduleNameMapper: {
       /* Handle CSS imports (with CSS modules)
       https://jestjs.io/docs/webpack#mocking-css-modules */

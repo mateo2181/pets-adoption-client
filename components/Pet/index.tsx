@@ -8,18 +8,20 @@ interface Props {
     name: string;
     breed: string;
     defaultImage: string;
+    widthCard: number;
+    onClick: any;
 }
 
-export default function Pet({id, name, breed, defaultImage}: Props) {
+export default function Pet({id, name, breed, defaultImage, widthCard = 240, onClick}: Props) {
     return (
-        <Link href={`/pets/${id}`} passHref>
-            <div className={styles.Card}>
-                <Image height={300} width={300} src={defaultImage} alt={name} objectFit={'cover'}/>
+        // <Button href={`/pets/${id}`} passHref>
+            <button onClick={onClick} className={styles.Card} style={{width: widthCard}}>
+                <Image height={widthCard} width={widthCard} src={defaultImage} alt={name} objectFit={'cover'}/>
                 <div className={styles.Info}>
                     <h2>{name}</h2>
                     <div className={styles.Breed}>{breed}</div>
                 </div>
-            </div>
-        </Link>
+            </button>
+        // </Link>
     );
 }

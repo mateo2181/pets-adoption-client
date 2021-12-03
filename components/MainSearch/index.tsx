@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { HiSearch } from "react-icons/hi";
+import { HiSearch } from 'react-icons/hi';
 import styles from './MainSearch.module.scss';
 
 interface Props {
@@ -26,5 +26,5 @@ export default function MainSearch() {
                 <button><span>Find other pets</span></button>            
             </div>
         </div>
-    )
+    );
 }

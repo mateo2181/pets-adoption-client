@@ -7,7 +7,6 @@ interface IUser {
 interface PetPicture {
     id?: string;
     path?: string;
-    url?: string;
 }
 
 interface IPetBreed {
@@ -25,9 +24,11 @@ interface IPetType {
 interface IPet {
     id: string;
     name: string;
+    high: string;
     pictureDefault?: PetPicture;
     pictures?: Array<PetPicture>;
     breed?: IPetBreed;
+    type?: IPetType;
     creator?: IUser;
     owner?: IUser;
 }
@@ -36,8 +37,15 @@ interface PetListProps {
     pets: Array<IPet>
 }
 
+interface PetTypeData {
+    petsType: IPetType[];
+}
+
 export {
     IPet,
     PetListProps,
-    PetPicture
+    PetPicture,
+    IPetBreed,
+    IPetType,
+    PetTypeData
 };
