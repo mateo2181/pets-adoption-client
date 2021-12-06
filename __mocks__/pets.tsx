@@ -14,6 +14,7 @@ export const pets = [
         }
       ],
       'breed': {
+        'id': '2',
         'name': 'Labrador'
       },
       'creator': {
@@ -37,6 +38,7 @@ export const pets = [
           }
         ],
         'breed': {
+          'id': '2',
           'name': 'Labrador'
         },
         'creator': {
