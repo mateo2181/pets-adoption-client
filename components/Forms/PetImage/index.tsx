@@ -5,6 +5,7 @@ import { Box, Flex } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { SmallCloseIcon } from '@chakra-ui/icons';
 import { motion, usePresence } from 'framer-motion';
+import { CustomImage } from 'components/UI/CustomImage';
 
 interface Props extends PetPicture {
     widthCard: number;
@@ -30,19 +31,16 @@ function PetImageForm({id, path, widthCard, onClickDelete}: Props) {
     const transition = { type: 'spring', stiffness: 500, damping: 50, mass: 1 };
     return (
         <BoxFM  animate={isPresent ? 'show' : 'hidden'}
-                initial="hidden"
-                layout={true}
-                transition={transition}
-                exit={{ opacity: 0 }}
-                variants={item}>
-        <Box position='relative' _hover={{ '&>svg': { display: 'block' }}}>
+                initial="hidden" layout={true} transition={transition} exit={{ opacity: 0 }} variants={item}
+                justifySelf={{ base: 'center', sm: 'flex-start'}} width={widthCard} height={widthCard}>
+        <Box position='relative' width="100%" _hover={{ '&>svg': { display: 'block' }}}>
             <SmallCloseIcon 
                 onClick={onClickDelete}
                 position='absolute'
                 zIndex={1}
-                display='none'
-                top={-2}
-                right={-2}
+                display={{ sm: 'block', lg: 'none' }}
+                top={2}
+                right={2}
                 transitionProperty='all'
                 transitionDuration='1'
                 cursor='pointer'
@@ -51,8 +49,8 @@ function PetImageForm({id, path, widthCard, onClickDelete}: Props) {
                 color='gray.100'
                 bg='gray.500'
                 boxSize={6} />
-            <Box borderRadius={6} overflow="hidden" height={widthCard}>
-                <Image height={widthCard} width={widthCard} src={path || ''} alt={path} objectFit={'cover'}/>  
+            <Box borderRadius={6} overflow='hidden'>
+                <CustomImage width={widthCard} height={widthCard} src={path || ''} alt={path} borderRadius={6}/>  
             </Box>
         </Box>
         </BoxFM>

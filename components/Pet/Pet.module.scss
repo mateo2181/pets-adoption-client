@@ -1,9 +1,10 @@
 .Card {
+    position: relative;
     display: flex;
     width: 100%;
     flex-direction: column;
     // min-width: 260px;
-    border-radius: 12px;
+    border-radius: 6px;
     overflow: hidden;
     cursor: pointer;
     transition: all .3s ease-out;
@@ -27,16 +28,25 @@
     align-items: center;
     padding: 16px 16px 24px;
     width: 100%;
+    border-top: 1px solid #dcdcdc;
     // border-top-left-radius: 16px;
     // border-top-right-radius: 16px;
     // transform: translateY(-20px);
     background-color: white;
     h2 {
         margin: 0;
-        font-size: 20px;
+        font-size: 32px;
     }
     
     .Breed {
         color: #929292;
     }
+}
+
+@media(min-width: 30em) {
+    .Info {
+        h2 {
+            font-size: 20px;
+        }
+    }       
 }

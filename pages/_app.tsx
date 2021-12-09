@@ -5,10 +5,11 @@ import client from 'apollo/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import Layout from '../components/Layout';
 import '../styles/globals.css';
+import theme from 'theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider> 
+    <ChakraProvider theme={theme}> 
       <Provider
         // Provider options are not required but can be useful in situations where
         // you have a short session maxAge time. Shown here with default values.

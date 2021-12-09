@@ -11,6 +11,7 @@ import { Select } from '@chakra-ui/select';
 import { Button } from '@chakra-ui/button';
 import { useForm } from 'react-hook-form';
 import NextLink from 'next/link';
+import { useBreakpointValue } from '@chakra-ui/media-query';
 
 interface Props {
     session: any
@@ -18,6 +19,8 @@ interface Props {
 
 export default function CreatePet({session}: Props) {
     
+    const colSpan = useBreakpointValue({ base: 2, md: 1 });
+
     const { handleSubmit, register, reset, formState: { errors, isSubmitting }} = useForm();
     const [petType, setPetType] = useState<IPetType | null>(null);
     const [createPet, { data, loading, error }] = useMutation(CREATE_PET);
@@ -53,11 +56,11 @@ export default function CreatePet({session}: Props) {
     if(loadingPetsType) return <div>Loading...</div>;
     return (
         <Container maxW="container.md">
-            <VStack w="100" p={10} spacing={8} alignItems="flex-start">
+            <VStack w="100" p={[4, 6, 8, 10]} spacing={8} alignItems="flex-start">
                 <Heading as='h2' size='2xl'> Create Pet </Heading>
                 <form onSubmit={handleSubmit(onSubmit)} style={{width: '100%'}}>
                     <SimpleGrid columns={2} columnGap={4} rowGap={6} w="full">
-                        <GridItem colSpan={1}>
+                        <GridItem colSpan={colSpan}>
                             <FormControl isInvalid={errors.name}>
                                 <FormLabel htmlFor='name'>Name</FormLabel>
                                 <Input id='name' placeholder='Name'
@@ -67,7 +70,7 @@ export default function CreatePet({session}: Props) {
                                 <FormErrorMessage> {errors.name && errors.name.message} </FormErrorMessage>
                             </FormControl>
                         </GridItem>
-                        <GridItem colSpan={1}>
+                        <GridItem colSpan={colSpan}>
                             <FormControl isInvalid={errors.high}>
                                 <FormLabel htmlFor='high'>High (cm)</FormLabel>
                                 <Input id='high' placeholder='High' type="number"
@@ -75,7 +78,7 @@ export default function CreatePet({session}: Props) {
                                 <FormErrorMessage> {errors.high && errors.high.message} </FormErrorMessage>
                             </FormControl>
                         </GridItem>
-                        <GridItem colSpan={1}>
+                        <GridItem colSpan={colSpan}>
                             <FormControl>
                                 <FormLabel htmlFor='type'>Pet Type</FormLabel>
                                 <Select id='type' {...register('type', { required: 'This is required' })} onChange={changePetType}>
@@ -85,7 +88,7 @@ export default function CreatePet({session}: Props) {
                                 </Select>
                             </FormControl>
                         </GridItem>
-                        <GridItem colSpan={1}>
+                        <GridItem colSpan={colSpan}>
                             <FormControl>
                                 <FormLabel htmlFor='breed'>Breed</FormLabel>
                                 <Select id='breed' {...register('breed', { required: 'This is required' })}>
@@ -95,15 +98,13 @@ export default function CreatePet({session}: Props) {
                                 </Select>
                             </FormControl>
                         </GridItem>
-                        <GridItem colSpan={2}>
-                            <Stack flexDirection="row" gridGap={4}>
-                                <Button colorScheme="blue" isLoading={isSubmitting} type="submit" w="full">Save Pet</Button>
-                                <NextLink href='/profile'>
-                                    <Button type="button" style={{margin: 0}} w="full">Back to Profile</Button>
-                                </NextLink>
-                            </Stack>
-                        </GridItem>
                     </SimpleGrid>
+                    <Stack mt={10} flexDirection="row" width='auto' justifyContent='flex-end' gridGap={4}>
+                        <Button colorScheme="blue" size='lg' isLoading={isSubmitting} type="submit">Save Pet</Button>
+                        <NextLink href='/profile'>
+                            <Button type="button" size='lg' variant='ghost' style={{margin: 0}}>Back to Profile</Button>
+                        </NextLink>
+                    </Stack>
                 </form>
             </VStack>
         </Container>

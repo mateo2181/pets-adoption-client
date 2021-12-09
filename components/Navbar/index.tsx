@@ -47,7 +47,7 @@ export default function Navbar() {
           borderColor={useColorModeValue('gray.200', 'gray.900')}
           align={'center'}>
           <Flex
-            flex={{ base: 1, md: 'auto' }}
+            flex={{ base: 'none', md: 'auto' }}
             ml={{ base: -2 }}
             display={{ base: 'flex', md: 'none' }}>
             <IconButton

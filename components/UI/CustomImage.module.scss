@@ -1,0 +1,15 @@
+.imageContainer {
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    >div {
+        position: unset !important;
+    }
+
+    .image {
+        border-radius: 6px;
+        width: 100% !important;
+        position: relative !important;
+        height: unset !important;
+    }
+}
