@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const GET_PETS = gql`
-query getPets($limit: Float, $petTypeId: Float) {
-  pets(filters: {petTypeId: $petTypeId, limit: $limit}) {
+query getPets($limit: Float, $petTypeId: Float, $latitude: Float, $longitude: Float) {
+  pets(filters: {petTypeId: $petTypeId, limit: $limit, latitude: $latitude, longitude: $longitude}) {
     id
     name
     status
@@ -16,6 +16,9 @@ query getPets($limit: Float, $petTypeId: Float) {
       name
       email
     }
+    latitude
+    longitude
+    address
   }
 }
 `;
@@ -25,6 +28,7 @@ query myPets($limit: Float!) {
   myPets(filters:{ limit: $limit }) {
     id
     name
+    address
     pictureDefault {
       path
     }
@@ -58,6 +62,9 @@ query getPet($id: Float!) {
         name
         email
       }
+      latitude
+      longitude
+      address
     }
 }
 `;

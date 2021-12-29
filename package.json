@@ -20,6 +20,7 @@
     "@emotion/styled": "^11.6.0",
     "@next-auth/prisma-adapter": "^0.4.4-canary.81",
     "@prisma/client": "^3.5.0",
+    "@react-google-maps/api": "^2.7.0",
     "@types/apollo-upload-client": "^14.1.0",
     "@uppy/core": "^2.1.2",
     "@uppy/dashboard": "^2.1.1",

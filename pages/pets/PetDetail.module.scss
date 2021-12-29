@@ -2,42 +2,37 @@
     display: flex;
     justify-content: center;
     background-color: var(--secondary-300);
-    .container {    
-        padding: 20px 0;
-        max-width: 1024px;
-        width: 100%;
-        .images {
-            display: flex;
-            gap: 16px;
+        // .images {
+            // display: flex;
+            // gap: 16px;
             .imageMain {
                 position: relative;
-                // flex-grow: 1;
-                width: 100%;
-                height: 632px;
+                flex-grow: 1;
+                // width: 100%;
+                // height: 632px;
                 border-radius: 12px;
                 img {
+                    // width: 100%;
                     border-radius: 12px;
                 }
             }
-            .imagesList { 
-                width: 200px;
-                // height: 200px;
-                flex-shrink: 0;
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
+            .imagesList {
+                padding-bottom: 12px;
+                // width: 200px;
+                // flex-shrink: 0;
+                // position: relative;
+                // display: flex;
+                // flex-direction: column;
+                // gap: 16px;
                 div {
-                    width: 100%;
-                    height: 200px;
-                    border-radius: 12px;
+                    // height: 200px;
                     position: relative;
                     img {
                         border-radius: 12px;
                     }
                 }
             }
-        }
+        // }
         .info {
             margin: 20px 0;
             padding: 30px;
@@ -45,6 +40,7 @@
             border-radius: 12px;
             box-shadow: 0 1px 3px rgb(77 71 81 / 20%);
             h1 {
+                text-transform: capitalize;
                 font-size: 40px;
                 font-weight: 500;
                 margin: 0 0 8px;
@@ -62,5 +58,4 @@
                 line-height: 1.5;
             }
         }
-    }
 }

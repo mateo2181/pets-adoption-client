@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import client from 'apollo/client';
 import { FormControl, FormErrorMessage, FormLabel } from '@chakra-ui/form-control';
 import { Input } from '@chakra-ui/input';
 import { Box, Container, GridItem, Heading, SimpleGrid, Stack, VStack } from '@chakra-ui/layout';
-import { CREATE_PET, GET_PETS_TYPE } from 'apollo/queries';
-import { getSession } from 'next-auth/client';
-import { IPetBreed, IPetType, PetTypeData } from 'types';
 import { Select } from '@chakra-ui/select';
 import { Button } from '@chakra-ui/button';
-import { useForm } from 'react-hook-form';
-import NextLink from 'next/link';
 import { useBreakpointValue } from '@chakra-ui/media-query';
+import { CREATE_PET, GET_PETS_TYPE } from 'apollo/queries';
+import { IPetBreed, IPetType, PetTypeData } from 'types';
+import { useForm } from 'react-hook-form';
+import { getSession } from 'next-auth/client';
+import NextLink from 'next/link';
+import SearchBox, { OnPlaceChangeProps } from 'components/UI/SearchBox';
+import { librariesGoogleMapsApi } from 'utils';
 
 interface Props {
     session: any
@@ -21,7 +22,7 @@ export default function CreatePet({session}: Props) {
     
     const colSpan = useBreakpointValue({ base: 2, md: 1 });
 
-    const { handleSubmit, register, reset, formState: { errors, isSubmitting }} = useForm();
+    const { handleSubmit, register, reset, setValue, formState: { errors, isSubmitting }} = useForm();
     const [petType, setPetType] = useState<IPetType | null>(null);
     const [createPet, { data, loading, error }] = useMutation(CREATE_PET);
     const { loading: loadingPetsType, error: errorPetsType, data: dataPetsType } = useQuery<PetTypeData>(GET_PETS_TYPE);
@@ -33,13 +34,17 @@ export default function CreatePet({session}: Props) {
     }, [dataPetsType]);
     
     function onSubmit(values: any) {
+        console.log(values);
         createPet({
             variables: {
                 input: { 
                     name: values.name,
                     high: values.high,
                     petTypeId: Number(values.type),
-                    petBreedId: Number(values.breed)
+                    petBreedId: Number(values.breed),
+                    latitude: values.latitude,
+                    longitude: values.longitude,
+                    address: values.address
                 }
             }
         }).then(() => reset());
@@ -51,6 +56,13 @@ export default function CreatePet({session}: Props) {
         if(petTypeSelected) {
             setPetType(petTypeSelected);
         } 
+    }
+
+    function changeLocation({address, latitude, longitude}: OnPlaceChangeProps) {
+        console.log({latitude, longitude});
+        setValue('latitude', latitude);
+        setValue('longitude', longitude);
+        setValue('address', address);
     }
 
     if(loadingPetsType) return <div>Loading...</div>;
@@ -65,7 +77,7 @@ export default function CreatePet({session}: Props) {
                                 <FormLabel htmlFor='name'>Name</FormLabel>
                                 <Input id='name' placeholder='Name'
                                     {...register('name',
-                                        { required: 'This is required', minLength: { value: 4, message: 'Minimum length should be 4' }}
+                                        { required: 'This is required', minLength: { value: 2, message: 'Minimum length should be 4' }}
                                     )} />
                                 <FormErrorMessage> {errors.name && errors.name.message} </FormErrorMessage>
                             </FormControl>
@@ -96,6 +108,18 @@ export default function CreatePet({session}: Props) {
                                         <option key={breed.id} value={breed.id}>{breed.name}</option>
                                     ))}
                                 </Select>
+                            </FormControl>
+                        </GridItem>
+                        <input style={{display: 'none'}} type="text" {...register('latitude', { required: 'This is required' })} />
+                        <input style={{display: 'none'}} type="text" {...register('longitude', { required: 'This is required' })} />
+                        <GridItem>
+                            <FormControl>
+                                <FormLabel htmlFor='address'>Address</FormLabel>
+                                <SearchBox placeholder='Type your address'
+                                           onPlaceChanged={changeLocation}
+                                           id='address'
+                                           name='address'
+                                           librariesGoogleApi={librariesGoogleMapsApi} />
                             </FormControl>
                         </GridItem>
                     </SimpleGrid>
