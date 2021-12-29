@@ -5,6 +5,10 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+body {
+  padding: 90px 0 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;

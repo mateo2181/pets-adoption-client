@@ -6,6 +6,7 @@ import { GET_PETS } from '../apollo/queries';
 import { PetListProps } from '../types';
 import Banner from '../components/Banner';
 import MainSearch from '../components/MainSearch';
+import SearchBox from 'components/UI/SearchBox';
 import { useEffect } from 'react';
 
 const Home: NextPage<PetListProps> = ({pets}) => {

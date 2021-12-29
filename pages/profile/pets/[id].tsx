@@ -15,6 +15,8 @@ import { getSession } from 'next-auth/client';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import ListPetImages from 'components/Forms/ListPetImages';
+import SearchBox, { OnPlaceChangeProps } from 'components/UI/SearchBox';
+import { librariesGoogleMapsApi } from 'utils';
 
 interface Props {
     pet: IPet
@@ -44,15 +46,23 @@ export default function EditPet({pet}: Props) {
                     name: values.name,
                     high: values.high,
                     petTypeId: Number(pet.type?.id),
-                    petBreedId: Number(values.breed)
+                    petBreedId: Number(values.breed),
+                    latitude: values.latitude,
+                    longitude: values.longitude,
+                    address: values.address
                 }
             }
         }).then(() => {});
     }
 
+    useEffect(() => {
+        setValue('latitude', pet.latitude);
+        setValue('longitude', pet.longitude);
+        setValue('address', pet.address);
+    }, [setValue, pet]);
+
     const changePetType = useCallback((value: any) => {
         const petTypeSelected = dataPetsType?.petsType.find(pt => pt.id == value);
-        console.log({petTypeSelected});
         if(petTypeSelected) {
             setPetType(petTypeSelected);
         }
@@ -65,9 +75,15 @@ export default function EditPet({pet}: Props) {
     }, [dataPetsType, changePetType, pet.type?.id]);
 
     useEffect(() => {
-        console.log(pet.breed?.id);
         setValue('breed', pet.breed?.id, { shouldValidate: true });
     }, [petType, setValue, pet.breed?.id]);
+
+    function changeLocation({address, latitude, longitude}: OnPlaceChangeProps) {
+        console.log({latitude, longitude});
+        setValue('latitude', latitude);
+        setValue('longitude', longitude);
+        setValue('address', address);
+    }
 
     return (
         <>
@@ -96,7 +112,7 @@ export default function EditPet({pet}: Props) {
                                             <FormLabel htmlFor='name'>Name</FormLabel>
                                             <Input id='name' data-testid="input-name" placeholder='Name' defaultValue={pet.name}
                                                 {...register('name',
-                                                    { required: 'This is required', minLength: { value: 4, message: 'Minimum length should be 4' }}
+                                                    { required: 'This is required', minLength: { value: 2, message: 'Minimum length should be 4' }}
                                                 )} />
                                             <FormErrorMessage role="alert"> {errors.name && errors.name.message} </FormErrorMessage>
                                         </FormControl>
@@ -127,6 +143,19 @@ export default function EditPet({pet}: Props) {
                                                     <option key={breed.id} value={breed.id}>{breed.name}</option>
                                                 ))}
                                             </Select>
+                                        </FormControl>
+                                    </GridItem>
+                                    <input style={{display: 'none'}} type="text" {...register('latitude', { required: 'This is required' })} />
+                                    <input style={{display: 'none'}} type="text" {...register('longitude', { required: 'This is required' })} />
+                                    <GridItem>
+                                        <FormControl>
+                                            <FormLabel htmlFor='address'> Address </FormLabel>
+                                            <SearchBox placeholder='Type your address'
+                                                    onPlaceChanged={changeLocation}
+                                                    id='address'
+                                                    name='address'
+                                                    defaultValue={pet.address}
+                                                    librariesGoogleApi={librariesGoogleMapsApi} />
                                         </FormControl>
                                     </GridItem>
                                 </SimpleGrid>

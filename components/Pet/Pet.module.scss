@@ -1,7 +1,7 @@
 .Card {
     position: relative;
     display: flex;
-    width: 100%;
+    // width: 100%;
     flex-direction: column;
     // min-width: 260px;
     border-radius: 6px;
@@ -24,29 +24,46 @@
 
 .Info {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 4px;
+    // justify-content: space-between;
+    // align-items: center;
+    text-align: start;
     padding: 16px 16px 24px;
     width: 100%;
     border-top: 1px solid #dcdcdc;
-    // border-top-left-radius: 16px;
-    // border-top-right-radius: 16px;
-    // transform: translateY(-20px);
     background-color: white;
-    h2 {
-        margin: 0;
-        font-size: 32px;
-    }
-    
-    .Breed {
-        color: #929292;
-    }
+}
+
+.Breed {
+    color: #929292;
+}
+
+.H1 {
+    margin: 0;
+    font-size: 28px;
+    text-transform: capitalize;
+}
+
+.ExtraContent {
+    word-wrap: break-word;
+}
+
+.Location {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    word-wrap: break-word;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 @media(min-width: 30em) {
     .Info {
-        h2 {
-            font-size: 20px;
-        }
-    }       
+        padding: 12px 12px 20px;
+    }      
+    .H1 {
+        font-size: 20px;
+    }
 }

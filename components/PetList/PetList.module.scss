@@ -11,15 +11,13 @@
             justify-content: space-between;
             align-items: baseline;
             h2 {
-                margin: 0;
-                font-size: 40px;
                 color: var(--secondary);
             }
             a {
                 color: var(--secondary-600);
-                font-size: 20px;
                 text-transform: uppercase;
                 display: flex;
+                align-items: center;
                 gap: 12px;
                 svg {
                     transition: all .3s ease-out;
@@ -55,5 +53,22 @@
             display: none;
         }
 
+    }
+    @media(max-width: 1024px) {
+        padding: 30px;
+        .container {
+            .list {
+                padding: 0;
+            }
+        }
+    }
+    @media(max-width: 1024px) {
+        .container {
+            .top {
+                a {
+                    gap: 6px;
+                }
+            }
+        }
     }
 }

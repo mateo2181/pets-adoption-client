@@ -5,7 +5,7 @@ import { Box, Flex } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { SmallCloseIcon } from '@chakra-ui/icons';
 import { motion, usePresence } from 'framer-motion';
-import { CustomImage } from 'components/UI/CustomImage';
+import { CustomImage } from 'components/UI';
 
 interface Props extends PetPicture {
     widthCard: number;

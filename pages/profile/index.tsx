@@ -12,6 +12,9 @@ import { useRouter } from 'next/dist/client/router';
 import Head from 'next/head';
 import { AddIcon } from '@chakra-ui/icons';
 import { useBreakpointValue, useMediaQuery } from '@chakra-ui/media-query';
+import { getAddressWithoutCountry } from 'utils/helpers';
+import { CustomImage } from 'components/UI';
+import useWidthElement from 'hooks/useWidthElement';
 
 interface Props extends PetListProps {
     session: any
@@ -19,24 +22,11 @@ interface Props extends PetListProps {
 
 export default function Profile({session, pets}: Props) {
 
-    const [width, setWidth] = useState(0);
-    const widthImagePet = useBreakpointValue({ base: width, sm: 240 });
     const router = useRouter();
+
     const ref = useRef() as MutableRefObject<HTMLDivElement>;
-
-    const getWidthPetList = () => {
-        if(ref.current) {
-            const newWidth = ref.current.clientWidth;
-            setWidth(newWidth);
-        }
-    };
-
-    useEffect(() => {
-        window.addEventListener('resize', getWidthPetList);
-        return () => {
-            window.removeEventListener('resize', getWidthPetList);
-        };
-    }, []);
+    const { width } = useWidthElement({ref, initialWidth: 0});
+    const widthImagePet = useBreakpointValue({ base: width, sm: 240 });
     
     return (
         <>
@@ -52,13 +42,17 @@ export default function Profile({session, pets}: Props) {
                     </NextLink>
                 </Stack>
                 <Grid ref={ref} templateColumns={{ base: 'repeat(1, 1fr)', sm: 'repeat(auto-fit, minmax(190px, 220px))'}} gap={6} w='full'>
-                {pets.map(pet => <Pet onClick={() => router.push(`profile/pets/${pet.id}`)}
-                                        widthCard={widthImagePet || 100}
-                                        name={pet.name}
-                                        defaultImage={pet.pictureDefault?.path || ''}
-                                        breed={pet.breed?.name || ''}
-                                        key={pet.id}
-                                        id={pet.id} />)}
+                    {pets.map(pet => <Pet onClick={() => router.push(`profile/pets/${pet.id}`)} key={pet.id}>
+                                    <Pet.Image>
+                                        <CustomImage width={widthImagePet} height={widthImagePet} src={pet.pictureDefault?.path || ''} alt={pet.name} />
+                                    </Pet.Image>
+                                    <Pet.Info>
+                                        <Pet.Title>{pet.name}</Pet.Title>
+                                        <Pet.Breed>{pet.breed?.name}</Pet.Breed>
+                                        <Pet.Location>{getAddressWithoutCountry(pet.address)}</Pet.Location>
+                                    </Pet.Info>          
+                                 </Pet>
+                    )}
                 </Grid>
             </VStack>
             {/* <VStack spacing={4} alignItems={'flex-start'}>

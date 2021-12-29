@@ -31,6 +31,9 @@ interface IPet {
     type?: IPetType;
     creator?: IUser;
     owner?: IUser;
+    latitude: number;
+    longitude: number;
+    address: string;
 }
 
 interface PetListProps {
@@ -41,11 +44,18 @@ interface PetTypeData {
     petsType: IPetType[];
 }
 
+interface LocationType {
+    address: string | null,
+    latitude: number | null,
+    longitude: number | null
+}
+
 export {
     IPet,
     PetListProps,
     PetPicture,
     IPetBreed,
     IPetType,
-    PetTypeData
+    PetTypeData,
+    LocationType
 };
