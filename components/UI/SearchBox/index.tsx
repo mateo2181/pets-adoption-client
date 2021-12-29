@@ -43,7 +43,7 @@ export default function SearchBox({placeholder, onPlaceChanged, defaultValue = '
     };
 
     return (
-        <LoadScript googleMapsApiKey={'AIzaSyDhL0Lz6ZpcrHqW9R_sTOIFVz5IkY1mo9E'} libraries={librariesGoogleApi}>
+        <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY || ''} libraries={librariesGoogleApi}>
             <Autocomplete onLoad={onLoad} onUnmount={unmountAutocomplete} onPlaceChanged={onPlacesChanged}>
                 <Input type="text" placeholder={placeholder} defaultValue={defaultValue} />
           </Autocomplete>
